@@ -7,6 +7,8 @@ class ContactsController < ApplicationController
 
   def new
     @contact = Contact.new
+    @company = Company.find_by({ "id" => params["company_id"] })
+    @contact["company_id"] = @company["id"]
   end
 
   def create
@@ -16,7 +18,8 @@ class ContactsController < ApplicationController
     @contact["email"] = params["contact"]["email"]
     @contact["phone_number"] = params["contact"]["phone_number"]
     @contact["company_id"] = params["contact"]["company_id"]
-    contact.save
+    @contact.save
+    redirect_to "/companies/#{@contact["company_id"]}"
   end
 
 end
